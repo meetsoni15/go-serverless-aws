@@ -1,0 +1,57 @@
+'service: serverless-aws-example
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: go1.x
+  lambdaHashingVersion: 20201221
+  region: us-east-1
+  environment:
+    DB_HOST: AWS_DB_HOST
+    DB_PORT: AWS_DB_PORT
+    DB_NAME: AWS_DB_NAME
+    DB_USER: AWS_DB_USER
+    DB_PASSWORD: AWS_DB_PASSWORD
+package:
+  patterns:
+    - '!./**/*.go'
+    - './bin/**'
+
+functions:
+  createUserRole:
+    handler: bin/create_user_role
+    events:
+      - http:
+          path: /create_user_role
+          method: post
+  updateUserRole:
+    handler: bin/update_user_role
+    events:
+      - http:
+          path: /update_user_role/{id}
+          method: put
+          request:
+            parameters:
+              paths:
+                id: true
+  deleteUserRole:
+    handler: bin/delete_user_role
+    events:
+      - http:
+          path: /delete_user_role/{id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                id: true    
+  getUserRole:
+    handler: bin/get_user_role
+    events:
+      - http:
+          path: /get_user_role/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true                         
+                    
