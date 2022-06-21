@@ -1,4 +1,4 @@
-'service: serverless-aws-example
+service: serverless-aws-example
 frameworkVersion: '3'
 
 provider:
