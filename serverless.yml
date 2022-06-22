@@ -5,7 +5,7 @@ provider:
   name: aws
   runtime: go1.x
   lambdaHashingVersion: 20201221
-  region: us-east-1
+  region: us-east-2
   environment:
     DB_HOST: AWS_DB_HOST
     DB_PORT: AWS_DB_PORT
