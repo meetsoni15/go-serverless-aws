@@ -13,14 +13,22 @@ import (
 	"github.com/meetsoni15/go-serverless-aws/utils"
 )
 
+// Handler is our lambda handler invoked by the `lambda.Start` function call
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	//Data model of user role
 	var newUserRole model.UserRole
+	//Decode reeuqest body to user role data model
 	if request.PathParameters["id"] == "" {
 		return utils.RespondError(422, "Invalid parameters"), fmt.Errorf("Invalid parameters")
 	}
 
+	//Get user role id from path parameters
 	newUserRole.ID, _ = strconv.Atoi(request.PathParameters["id"])
+	//Connect to database
 	db := database.InitDB()
+	//Close database connection
+	defer db.Close()
+	//Delete user role from database
 	newUserRole.UpdatedAt = time.Now()
 	_, err := db.Model(&newUserRole).WherePK().Delete()
 	if err != nil {
@@ -28,6 +36,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return utils.InternalServerError(), err
 	}
 
+	//Return response
 	resp := events.APIGatewayProxyResponse{
 		StatusCode: 204,
 		Headers: map[string]string{

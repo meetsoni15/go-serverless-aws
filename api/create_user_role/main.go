@@ -12,6 +12,7 @@ import (
 	"github.com/meetsoni15/go-serverless-aws/utils"
 )
 
+// Handler is our lambda handler invoked by the `lambda.Start` function call
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	//Data model of user role
 	var newUserRole model.UserRole
@@ -24,6 +25,8 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//Connect to database
 	db := database.InitDB()
+	//Close database connection
+	defer db.Close()
 	//Set created at & updated at to current time
 	newUserRole.CreatedAt = time.Now()
 	newUserRole.UpdatedAt = time.Now()
