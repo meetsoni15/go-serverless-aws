@@ -1,6 +1,9 @@
 # Serverless directories
 .serverless
 
+# VSCode directories
+.vscode
+
 # golang output binary directory
 bin
 
